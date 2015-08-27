@@ -1,9 +1,8 @@
-
 public class PrintArray {
     public static void main(String[] args) {
         int rows = 5;
         int cols = 5;
-        int orgCols = 4;
+        int orgCols = cols;
         boolean reverse = false;
 
         for (int lines = 1; lines < (rows + orgCols + 1); lines++) {
