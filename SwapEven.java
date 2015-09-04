@@ -4,32 +4,58 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SwapEven {
-	public static char[] swapArray(char[] input) {
-		if (input.length > 1) {
-			char temp = input[0];
-			input[0] = input[1];
-			input[1] = temp;
-			swapArray(removeFirstTwo(input));
-			System.out.println(input);
+
+	public static List<Character> swapArray(List<Character> input) {
+		List<Character> swapped = new ArrayList<Character>();
+		if (input.size() > 2) {
+			Character temp = input.get(0);
+			input.set(0, input.get(1));
+			input.set(1, temp);
+			swapped = copyFirstTwo(swapped, input);
+			input = removeFirstTwo(input);
+			swapped.addAll(swapArray(input));
+			return swapped;
+		} else {
+			return input;
 		}
-		return input;
 	}
 
-	public static char[] removeFirstTwo(char[] input) {
-		char[] copy = new char[input.length - 2];
-		for (int i = 0; i < input.length - 2; i++) {
-			copy[i] = input[i + 2];
+	public static List<Character> copyFirstTwo(List<Character> swapped,
+			List<Character> input) {
+		if (input.size() <= 2) {
+			return swapped;
 		}
-		return copy;
+		for (int i = 0; i < 2; i++) {
+			swapped.add(input.get(i));
+		}
+		return swapped;
 	}
 
-	public static void swapArray(List<char[]> arrays) {
-		int lineCount = arrays.size();
+	public static List<Character> removeFirstTwo(List<Character> input) {
+		if (input.size() <= 2) {
+			return input;
+		}
+		List<Character> remove = new ArrayList<Character>();
+		for (int i = 0; i < input.size() - 2; i++) {
+			remove.add(i, input.get(i + 2));
+		}
+		return remove;
+	}
+
+	public static void swapAjacent(List<char[]> lines) {
+		int lineCount = lines.size();
 		for (int i = 0; i < lineCount; i++) {
-			System.out.println(swapArray(arrays.get(i)));
+			char[] ary = lines.get(i);
+			List<char[]> asList = Arrays.asList(ary);
+			List<Character> listC = new ArrayList<Character>();
+			for (char c : ary) {
+				listC.add(c);
+			}
+			System.out.println(swapArray(listC));
 		}
 	}
 
@@ -51,7 +77,7 @@ public class SwapEven {
 		}
 
 		if (lineCount > 0) {
-			swapArray(stringLines);
+			swapAjacent(stringLines);
 		}
 	}
 }
